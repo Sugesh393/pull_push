@@ -5,6 +5,10 @@ app_description = "Library Management System"
 app_email = "faris@abc.com"
 app_license = "MIT"
 
+doctype_js = {
+    "Sales Order": "mailbtn.js"
+}
+
 # Includes in <head>
 # ------------------
 
