@@ -34,7 +34,9 @@ def set_sales_order(
 
 @frappe.whitelist()
 def insert_child(value):
+    
     inst = frappe.new_doc("Child Table Task")
+
     for i in value:
         inst.append("insertion", {
             "name1": i.get("name"),
