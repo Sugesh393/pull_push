@@ -1,11 +1,13 @@
 import frappe, json
 from frappe.utils import flt
+from frappe.model.mapper import get_mapped_doc
 
 from erpnext.stock.get_item_details import (
 	_get_item_tax_template,
 	get_item_tax_map,
 	get_conversion_factor
 )
+from frappe.utils.data import getdate
 
 @frappe.whitelist()
 def sendmail(email, body, sub):
@@ -140,4 +142,58 @@ def update_items(parent_doctype, trans_items, parent_doctype_name, child_docname
 	if removed:
 		parent.update_prevdoc_status()
 
+@frappe.whitelist()
+def custom_sales_invoice(source):
+	# def update_date(source, target_doc, source_parent):
+	# 	target_doc.due_date = getdate()
+
+	# def update_income(source, target_doc, source_parent):
+	# 	for i in source_parent.items:
+	# 		item = frappe.get_doc("Item", i.item_code).as_dict()
+
+	# 		if item.item_defaults[0]["company"] == source_parent.company:
+	# 			target_doc.income_account = item.item_defaults[0]["income_account"]
+		
+	# doclist = get_mapped_doc(
+	# 	"Sales Order",
+	# 	source,
+	# 	{
+	# 		"Sales Order": {
+	# 			"doctype": "Sales Invoice",
+	# 			"postprocess": update_date,
+	# 		},
+	# 		"Sales Order Item": {
+	# 			"doctype": "Sales Invoice Item",
+	# 			"postprocess": update_income,
+	# 		},
+	# 		"Sales Taxes and Charges": {
+	# 			"doctype": "Sales Taxes and Charges",
+	# 			"add_if_empty": True,
+	# 		},
+	# 		"Sales Team": {
+	# 			"doctype": "Sales Team",
+	# 			"add_if_empty": True,
+	# 		},
+	# 	},
+	# 	target_doc,
+	# 	ignore_permissions=True,
+	# )
+	source = json.loads(source)
 	
+	inv = frappe.new_doc("Sales Invoice")
+	
+	inv.posting_date = getdate()
+	inv.customer = source.get("customer")
+	inv.company = source.get("company")
+	inv.due_date = inv.posting_date
+	
+	for i in source["items"]:
+		item = frappe.get_doc("Item", i["item_code"]).as_dict()
+		i["cost_center"] = source["taxes"][0]["cost_center"]
+		i["income_account"] = item.item_defaults[0]["income_account"]
+
+		inv.append("items", i)
+
+	inv.update({"taxes": source["taxes"]})
+
+	return inv

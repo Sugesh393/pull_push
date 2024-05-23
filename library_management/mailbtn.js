@@ -7,6 +7,10 @@ frappe.ui.form.on('Sales Order', {
         frm.add_custom_button("Custom Update", () => {
             frm.trigger("item_dialog");
         })
+
+        frm.add_custom_button("Custom Invoice", () => {
+            frm.trigger("custom_sales_invoice");
+        })
     },
 
     mail_dialog: function(frm) {
@@ -133,5 +137,31 @@ frappe.ui.form.on('Sales Order', {
             }
         })
         i.show();
+    },
+
+    custom_sales_invoice: function(frm) {
+        // frappe.model.open_mapped_doc({
+        //     method: "library_management.mailbtn.custom_sales_invoice",
+        //     frm: frm
+        // });
+
+        // frappe.call({
+        //     method: "library_management.mailbtn.custom_sales_invoice",
+        //     args: {
+        //         source: frm.doc
+        //     },
+        //     callback: function(r) {
+        //         frappe.model.sync(r.message);
+        //         frappe.set_route("Form", r.message.doctype, r.message.name);
+        //     }
+        // });
+
+        frappe.call({
+            method: "library_management.stock_entry.auto_stock_issue",
+            // callback: function(r) {
+            //     // frappe.set_route("Form", "Stock Entry");
+            //     frappe.msgprint(r.message);
+            // }
+        })
     }
 })

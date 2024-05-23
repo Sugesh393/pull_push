@@ -132,12 +132,18 @@ doctype_js = {
 # ---------------
 
 # scheduler_events = {
+#     "cron": {
+#         "* * * * *": [
+#             "library_management.stock_entry.auto_stock_entry"
+#         ]
+#     }
 # 	"all": [
 # 		"library_management.tasks.all"
 # 	],
-# 	"daily": [
-# 		"library_management.tasks.daily"
-# 	],
+	# "daily": [
+	# 	"library_management.tasks.daily",
+    #     "library_management.stock_entry.auto_stock_issue"
+	# ],
 # 	"hourly": [
 # 		"library_management.tasks.hourly"
 # 	],

@@ -1,0 +1,85 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-22 10:09:13.624888",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "frequency",
+  "day",
+  "repeat_on_date",
+  "column_break_ylpx",
+  "end_date",
+  "next_schedule",
+  "section_break_xupz",
+  "warehouse"
+ ],
+ "fields": [
+  {
+   "fieldname": "frequency",
+   "fieldtype": "Select",
+   "label": "Frequency",
+   "options": "Weekly\nMonthly\nQuarter Yearly\nHalf Yearly\nYearly"
+  },
+  {
+   "depends_on": "eval: doc.frequency == \"Weekly\";",
+   "fieldname": "day",
+   "fieldtype": "Select",
+   "label": "Day",
+   "options": "Sunday\nMonday\nTuesday\nWednesday\nThursday\nFriday\nSaturday"
+  },
+  {
+   "depends_on": "eval: in_list([\"Monthly\", \"Quarter Yearly\", \"Half Yearly\", \"Yearly\"], doc.frequency)",
+   "fieldname": "repeat_on_date",
+   "fieldtype": "Date",
+   "label": "Repeat on Date"
+  },
+  {
+   "fieldname": "column_break_ylpx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "next_schedule",
+   "fieldtype": "Date",
+   "label": "Next Schedule"
+  },
+  {
+   "fieldname": "section_break_xupz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Table",
+   "label": "Warehouse",
+   "options": "SE Warehouse"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-05-22 10:52:50.521207",
+ "modified_by": "Administrator",
+ "module": "Library Management",
+ "name": "Scheduled Stock Entry",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
